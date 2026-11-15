@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Henry Smith</title>
+<meta name="description" content="Henry Smith, a software engineer in Seattle who's mostly into AI and agents these days.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e4fa8'/%3E%3Ctext x='16' y='22.5' font-family='system-ui,sans-serif' font-size='18' font-weight='700' text-anchor='middle' fill='white'%3EH%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1b1d22; --muted: #565c69; --rule: #e2e2dc; --accent: #1e4fa8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14161a; --fg: #e7e8ea; --muted: #a3a9b4; --rule: #2b2f36; --accent: #8db4ff; }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 1.0625rem/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  overflow-wrap: break-word;
+}
+main { max-width: 40rem; margin: 0 auto; padding: 4rem 1rem 4rem; }
+h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: -0.01em; }
+p { margin: 0 0 1rem; }
+.contact { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+a { color: var(--accent); text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+h2 {
+  font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
+  margin: 3rem 0 .9rem; padding-bottom: .4rem; border-bottom: 1px solid var(--rule);
+}
+ul.list { margin: 0; padding-left: 1.15rem; }
+ul.list li { margin: .3rem 0; }
+ul.list li::marker { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Hi, I'm Henry</h1>
+  <p>I'm a software engineer in Seattle. I've been building software for a little over ten years, mostly the backend and cloud side of things, with a fair amount of frontend mixed in.</p>
+  <p>Lately I'm mostly into AI, especially agents: LLMs that can use tools, look things up and actually get stuff done. I'm the kind of person who builds that sort of thing for fun at home too. I'm not actively job hunting, but I'm always happy to talk shop or hear about something interesting.</p>
+  <ul class="contact" aria-label="Contact">
+    <li><a href="mailto:henry.smith.seattle@gmail.com">Email</a></li>
+    <li><a href="https://www.linkedin.com/in/henry-smith-77737233/" rel="me">LinkedIn</a></li>
+  </ul>
+
+  <section aria-labelledby="work">
+    <h2 id="work">Where I've worked</h2>
+    <ul class="list">
+      <li>Defense, healthcare, finance, self-driving cars, video games and big cloud platforms</li>
+      <li>Backend systems and cloud infrastructure that keep running when things go wrong</li>
+      <li>Lots of AI and LLM work lately: agents, retrieval and making sure the results are actually good</li>
+      <li>Full-stack web apps, from dashboards to big customer-facing portals</li>
+      <li>Mentoring newer engineers and helping small teams grow</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="edu">
+    <h2 id="edu">Education</h2>
+    <ul class="list">
+      <li>M.S. in Computer Science (machine learning), Georgia Tech</li>
+      <li>B.S. in Computer Science, Georgia Tech</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="certs">
+    <h2 id="certs">Certifications</h2>
+    <ul class="list">
+      <li>Claude Certified Architect – Professional</li>
+      <li>Claude Certified Architect – Foundations</li>
+      <li>GitHub Certified Agentic AI Developer</li>
+      <li>NVIDIA Certified Agentic AI</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
