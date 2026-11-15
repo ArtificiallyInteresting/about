@@ -5,76 +5,441 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Henry Smith</title>
 <meta name="description" content="Henry Smith, a software engineer in Seattle who's mostly into AI and agents these days.">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e4fa8'/%3E%3Ctext x='16' y='22.5' font-family='system-ui,sans-serif' font-size='18' font-weight='700' text-anchor='middle' fill='white'%3EH%3C/text%3E%3C/svg%3E">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b0d14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f6fb" media="(prefers-color-scheme: light)">
+<link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236d5dfc'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Ctext x='16' y='22.5' font-family='system-ui,sans-serif' font-size='18' font-weight='700' text-anchor='middle' fill='white'%3EH%3C/text%3E%3C/svg%3E">
 <style>
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/space-grotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+/* ---------- tokens ---------- */
 :root {
-  --bg: #fbfbf9; --fg: #1b1d22; --muted: #565c69; --rule: #e2e2dc; --accent: #1e4fa8;
+  --bg: #0b0d14;
+  --bg-2: #10131d;
+  --fg: #eceef5;
+  --muted: #9aa1b5;
+  --card: rgba(255 255 255 / 0.045);
+  --card-hover: rgba(255 255 255 / 0.075);
+  --border: rgba(255 255 255 / 0.09);
+  --border-strong: rgba(255 255 255 / 0.18);
+  --a1: #7c6cff;   /* violet */
+  --a2: #22d3ee;   /* cyan */
+  --a3: #f472b6;   /* pink */
+  --glow-1: rgba(124 108 255 / 0.40);
+  --glow-2: rgba(34 211 238 / 0.28);
+  --glow-3: rgba(244 114 182 / 0.22);
+  --grain-opacity: 0.07;
+  --shadow: 0 1px 0 rgba(255 255 255 / 0.04) inset, 0 20px 50px -20px rgba(0 0 0 / 0.6);
+  --link: #a99fff;
 }
-@media (prefers-color-scheme: dark) {
-  :root { --bg: #14161a; --fg: #e7e8ea; --muted: #a3a9b4; --rule: #2b2f36; --accent: #8db4ff; }
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f6fb;
+    --bg-2: #ffffff;
+    --fg: #141625;
+    --muted: #555b70;
+    --card: rgba(255 255 255 / 0.62);
+    --card-hover: rgba(255 255 255 / 0.85);
+    --border: rgba(20 22 37 / 0.08);
+    --border-strong: rgba(20 22 37 / 0.16);
+    --a1: #5b47f5;
+    --a2: #0891b2;
+    --a3: #db2777;
+    --glow-1: rgba(124 108 255 / 0.22);
+    --glow-2: rgba(34 211 238 / 0.18);
+    --glow-3: rgba(244 114 182 / 0.14);
+    --grain-opacity: 0.045;
+    --shadow: 0 1px 0 rgba(255 255 255 / 0.8) inset, 0 18px 40px -22px rgba(30 30 70 / 0.25);
+    --link: #4a37e0;
+  }
 }
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
-  margin: 0; background: var(--bg); color: var(--fg);
-  font: 1.0625rem/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font: 1.0625rem/1.7 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
   overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
 }
-main { max-width: 40rem; margin: 0 auto; padding: 4rem 1rem 4rem; }
-h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 1.25rem; letter-spacing: -0.01em; }
-p { margin: 0 0 1rem; }
-.contact { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
-a { color: var(--accent); text-underline-offset: .2em; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-h2 {
-  font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--muted);
-  margin: 3rem 0 .9rem; padding-bottom: .4rem; border-bottom: 1px solid var(--rule);
+h1, h2, h3, .display { font-family: "Space Grotesk", system-ui, sans-serif; letter-spacing: -0.02em; }
+a { color: var(--link); text-underline-offset: 0.2em; }
+:focus-visible { outline: 2px solid var(--a2); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+svg.i { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- background: aurora, grid, grain ---------- */
+.backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.blob {
+  position: absolute; border-radius: 50%; filter: blur(70px);
+  width: 46vmax; height: 46vmax;
 }
-ul.list { margin: 0; padding-left: 1.15rem; }
-ul.list li { margin: .3rem 0; }
-ul.list li::marker { color: var(--muted); }
+.blob.b1 { background: radial-gradient(circle, var(--glow-1), transparent 65%); top: -18vmax; left: -12vmax; }
+.blob.b2 { background: radial-gradient(circle, var(--glow-2), transparent 65%); top: 10vmax; right: -18vmax; }
+.blob.b3 { background: radial-gradient(circle, var(--glow-3), transparent 65%); bottom: -22vmax; left: 20vmax; }
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 75%);
+          mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 75%);
+  opacity: 0.55;
+}
+.grain {
+  position: absolute; inset: -50%;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* scroll progress bar */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 10;
+  background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+  transform-origin: 0 50%; transform: scaleX(0);
+  display: none;
+}
+
+/* ---------- layout ---------- */
+.wrap { width: min(68rem, 100% - 2rem); margin-inline: auto; }
+.hero {
+  min-height: min(100vh, 56rem);
+  display: grid; align-items: center;
+  grid-template-columns: 1.15fr 0.85fr; gap: 2rem;
+  padding-block: 5rem 3rem;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.65rem; margin: 0 0 1.5rem;
+  border: 1px solid var(--border-strong); border-radius: 999px;
+  background: var(--card); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: 0.85rem; color: var(--muted);
+}
+.dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--a2); box-shadow: 0 0 0 0 var(--a2); }
+h1 {
+  font-size: clamp(2.8rem, 7.5vw, 5.4rem);
+  line-height: 1.02; margin: 0 0 1.5rem; font-weight: 700;
+}
+.grad {
+  background: linear-gradient(100deg, var(--a1) 10%, var(--a2) 55%, var(--a3) 95%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede p { margin: 0 0 1rem; max-width: 36rem; color: var(--muted); font-size: 1.1rem; }
+.lede p:first-child { color: var(--fg); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; padding: 0; list-style: none; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  padding: 0.75rem 1.25rem; border-radius: 999px;
+  font-weight: 600; text-decoration: none; color: var(--fg);
+  border: 1px solid var(--border-strong); background: var(--card);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-2px); background: var(--card-hover); border-color: var(--a1); box-shadow: 0 10px 30px -12px var(--glow-1); }
+.btn.primary {
+  color: #fff; border-color: transparent;
+  background: linear-gradient(120deg, var(--a1), color-mix(in srgb, var(--a1) 45%, var(--a2)));
+  box-shadow: 0 10px 30px -10px var(--glow-1);
+}
+.btn.primary:hover { box-shadow: 0 14px 38px -10px var(--glow-1); }
+
+/* hero art */
+.art { position: relative; aspect-ratio: 1; width: 100%; max-width: 30rem; justify-self: center; }
+.art svg { width: 100%; height: 100%; overflow: visible; }
+.art .ring { fill: none; stroke: var(--border-strong); stroke-width: 1; }
+.art .ring.dashed { stroke-dasharray: 2 10; stroke: var(--a2); opacity: .5; }
+.art .edge { stroke: url(#edgeGrad); stroke-width: 1.6; fill: none; stroke-dasharray: 5 9; opacity: .85; }
+.art .node { fill: var(--bg-2); stroke: var(--border-strong); stroke-width: 1.2; }
+.art .node-ico { fill: none; stroke: var(--fg); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.art .spark { fill: var(--a2); }
+.art .core-halo { fill: url(#halo); }
+.art .orbit, .art .orbit-r { transform-origin: 200px 200px; }
+
+/* scroll cue */
+.cue {
+  display: flex; justify-content: center; padding-bottom: 2rem; color: var(--muted);
+}
+.cue span {
+  width: 1.5rem; height: 2.4rem; border: 2px solid var(--border-strong); border-radius: 1rem; position: relative;
+}
+.cue span::after {
+  content: ""; position: absolute; left: 50%; top: 0.45rem; width: 4px; height: 8px; margin-left: -2px;
+  border-radius: 2px; background: var(--a2);
+}
+
+/* sections */
+section { padding-block: 3.5rem; }
+.kicker {
+  display: flex; align-items: center; gap: 0.75rem;
+  font: 600 0.8rem/1 "Space Grotesk", system-ui, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted);
+  margin: 0 0 1.75rem;
+}
+.kicker::before { content: ""; width: 2.25rem; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--a1), var(--a2)); }
+h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; margin: 0 0 2rem; font-weight: 700; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.6rem; padding: 0; margin: 0 0 1.5rem; list-style: none; }
+.chips li {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.95rem; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: 0.95rem;
+}
+.chips svg.i { color: var(--a2); width: 1.1em; height: 1.1em; }
+
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 0; margin: 0; list-style: none; }
+.card {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: 1.5rem; border-radius: 1.25rem;
+  background: var(--card); border: 1px solid var(--border);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.card::before {
+  /* gradient sheen in the corner */
+  content: ""; position: absolute; z-index: -1; inset: auto -40% -60% auto; width: 80%; aspect-ratio: 1;
+  background: radial-gradient(circle, var(--glow-1), transparent 60%);
+  opacity: 0; transition: opacity .35s ease;
+}
+.card:hover { transform: translateY(-4px); border-color: var(--border-strong); background: var(--card-hover); }
+.card:hover::before { opacity: 1; }
+.card p { margin: 0; }
+.ico {
+  display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-bottom: 1rem;
+  border-radius: 0.85rem; color: #fff;
+  background: linear-gradient(135deg, var(--a1), var(--a2));
+  box-shadow: 0 8px 20px -8px var(--glow-1);
+}
+.cards li:nth-child(2) .ico { background: linear-gradient(135deg, var(--a2), var(--a1)); }
+.cards li:nth-child(3) .ico { background: linear-gradient(135deg, var(--a3), var(--a1)); }
+.cards li:nth-child(4) .ico { background: linear-gradient(135deg, var(--a1), var(--a3)); }
+
+.split > section { padding: 0; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
+.stack { display: grid; gap: 1rem; padding: 0; margin: 0; list-style: none; }
+.row { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; }
+.row .ico { margin: 0; }
+.row strong { display: block; font-family: "Space Grotesk", system-ui, sans-serif; font-size: 1.05rem; line-height: 1.3; }
+.row span.sub { color: var(--muted); font-size: 0.95rem; }
+
+/* certification badge with animated gradient border */
+.badge { position: relative; }
+.badge::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: linear-gradient(120deg, var(--a1), transparent 35%, transparent 65%, var(--a2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: .8;
+}
+
+footer { padding-block: 4rem 3rem; text-align: center; color: var(--muted); font-size: 0.95rem; }
+footer .actions { justify-content: center; margin: 0 0 1.5rem; }
+.divider { height: 1px; margin-bottom: 3rem; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 52rem) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 3.5rem; gap: 1rem; }
+  .art { max-width: 15rem; order: -1; justify-self: start; margin-left: -0.5rem; }
+  .cue { display: none; }
+  .cards, .split { grid-template-columns: 1fr; }
+  .split { gap: 3rem; }
+}
+
+/* ---------- motion (only for people who haven't asked for less) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .blob.b1 { animation: float1 22s ease-in-out infinite alternate; }
+  .blob.b2 { animation: float2 26s ease-in-out infinite alternate; }
+  .blob.b3 { animation: float3 30s ease-in-out infinite alternate; }
+  .dot { animation: ping 2.4s ease-out infinite; }
+  .grad { animation: shimmer 8s ease-in-out infinite alternate; }
+  .art .edge { animation: flow 1.6s linear infinite; }
+  .art .orbit { animation: spin 60s linear infinite; }
+  .art .orbit-r { animation: spin 90s linear infinite reverse; }
+  .art .pulse { animation: pulse 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .art .pulse.d2 { animation-delay: -1s; }
+  .art .pulse.d3 { animation-delay: -2s; }
+  .cue span::after { animation: scrollcue 1.8s ease-in-out infinite; }
+
+  /* scroll-driven effects where the browser supports them; elsewhere the page is simply static */
+  @supports (animation-timeline: view()) {
+    .progress { display: block; animation: grow linear both; animation-timeline: scroll(root); }
+    .art { animation: parallax linear both; animation-timeline: scroll(root); animation-range: 0 100vh; }
+    .hero-text { animation: fadeup-out linear both; animation-timeline: scroll(root); animation-range: 0 90vh; }
+    .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+    .grid { animation: gridshift linear both; animation-timeline: scroll(root); }
+  }
+}
+@keyframes float1 { to { transform: translate(8vmax, 6vmax) scale(1.1); } }
+@keyframes float2 { to { transform: translate(-6vmax, 8vmax) scale(0.9); } }
+@keyframes float3 { to { transform: translate(-8vmax, -5vmax) scale(1.15); } }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--a2) 60%, transparent); } 100% { box-shadow: 0 0 0 0.6rem transparent; } }
+@keyframes shimmer { to { background-position: 100% 0; } }
+@keyframes flow { to { stroke-dashoffset: -28; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 50% { transform: scale(1.12); } }
+@keyframes scrollcue { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(0.9rem); } }
+@keyframes grow { to { transform: scaleX(1); } }
+@keyframes parallax { to { transform: translateY(18vh) rotate(-12deg) scale(0.88); opacity: 0.35; } }
+@keyframes fadeup-out { to { transform: translateY(-6vh); opacity: 0.15; } }
+@keyframes reveal { from { opacity: 0; translate: 0 3rem; scale: 0.97; filter: blur(6px); } to { opacity: 1; translate: 0 0; scale: 1; filter: none; } }
+@keyframes gridshift { to { background-position: 0 -320px; } }
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V16M8 7.6v.01M11.5 16v-3.2c0-1.4 1-2.3 2.2-2.3s2.3.9 2.3 2.3V16M11.5 10.5V16"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 19 6v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.4 12.6 12 21l-8.4-8.4A5 5 0 0 1 12 6a5 5 0 0 1 8.4 6.6z"/><path d="M3.5 12H8l1.5-2.5 2.5 5 1.5-2.5h7"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/><path d="M16 8h4v4"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16H3.5v-4l2-5h13l2 5v4H19"/><path d="M3.5 12h17"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="16.5" cy="16.5" r="2"/><path d="M9.5 16.5h5"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 7h10a5 5 0 0 1 4.9 6l-.6 3a2.6 2.6 0 0 1-4.5 1.2L15 15H9l-1.8 2.2a2.6 2.6 0 0 1-4.5-1.2l-.6-3A5 5 0 0 1 7 7z"/><path d="M8 10v3M6.5 11.5h3M15.5 11h.01M17.5 12.5h.01"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 9.5a4.3 4.3 0 0 1-.5 8.5z"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="m12 8 1.3 2.7L16 12l-2.7 1.3L12 16l-1.3-2.7L8 12l2.7-1.3z"/><path d="m5.6 5.6 1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></symbol>
+    <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M9 9v11"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/></symbol>
+    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14 -1.5 7 5-2.5 5 2.5-1.5-7"/><path d="m10 9 1.5 1.5L14.5 7.5"/></symbol>
+  </defs>
+</svg>
+
+<div class="progress" aria-hidden="true"></div>
+<div class="backdrop" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="grid"></div>
+  <div class="grain"></div>
+</div>
+
 <main>
-  <h1>Hi, I'm Henry</h1>
-  <p>I'm a software engineer in Seattle. I've been building software for a little over ten years, mostly the backend and cloud side of things, with a fair amount of frontend mixed in.</p>
-  <p>Lately I'm mostly into AI, especially agents: LLMs that can use tools, look things up and actually get stuff done. I'm the kind of person who builds that sort of thing for fun at home too. I'm not actively job hunting, but I'm always happy to talk shop or hear about something interesting.</p>
-  <ul class="contact" aria-label="Contact">
-    <li><a href="mailto:henry.smith.seattle@gmail.com">Email</a></li>
-    <li><a href="https://www.linkedin.com/in/henry-smith-77737233/" rel="me">LinkedIn</a></li>
-  </ul>
+  <header class="wrap hero">
+    <div class="hero-text">
+      <p class="eyebrow"><span class="dot"></span>Software engineer · Seattle</p>
+      <h1>Hi, I'm <span class="grad">Henry</span></h1>
+      <div class="lede">
+        <p>I'm a software engineer in Seattle. I've been building software for a little over ten years, mostly the backend and cloud side of things, with a fair amount of frontend mixed in.</p>
+        <p>Lately I'm mostly into AI, especially agents: LLMs that can use tools, look things up and actually get stuff done. I'm the kind of person who builds that sort of thing for fun at home too. I'm not actively job hunting, but I'm always happy to talk shop or hear about something interesting.</p>
+      </div>
+      <ul class="actions" aria-label="Contact">
+        <li><a class="btn primary" href="mailto:henry.smith.seattle@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>Email</a></li>
+        <li><a class="btn" href="https://www.linkedin.com/in/henry-smith-77737233/" rel="me"><svg class="i" aria-hidden="true"><use href="#i-link"/></svg>LinkedIn</a></li>
+      </ul>
+    </div>
 
-  <section aria-labelledby="work">
-    <h2 id="work">Where I've worked</h2>
-    <ul class="list">
-      <li>Defense, healthcare, finance, self-driving cars, video games and big cloud platforms</li>
-      <li>Backend systems and cloud infrastructure that keep running when things go wrong</li>
-      <li>Lots of AI and LLM work lately: agents, retrieval and making sure the results are actually good</li>
-      <li>Full-stack web apps, from dashboards to big customer-facing portals</li>
-      <li>Mentoring newer engineers and helping small teams grow</li>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <defs>
+          <linearGradient id="edgeGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c6cff"/><stop offset="1" stop-color="#22d3ee"/>
+          </linearGradient>
+          <linearGradient id="coreGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c6cff"/><stop offset=".6" stop-color="#3fa9f5"/><stop offset="1" stop-color="#22d3ee"/>
+          </linearGradient>
+          <radialGradient id="halo">
+            <stop offset="0" stop-color="#7c6cff" stop-opacity=".55"/><stop offset="1" stop-color="#7c6cff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <circle class="core-halo" cx="200" cy="200" r="120"/>
+        <circle class="ring" cx="200" cy="200" r="150"/>
+        <g class="orbit-r"><circle class="ring dashed" cx="200" cy="200" r="186"/>
+          <circle class="spark" cx="386" cy="200" r="3"/><circle class="spark" cx="14" cy="200" r="2"/><circle class="spark" cx="200" cy="14" r="2.5"/>
+        </g>
+
+        <g class="orbit">
+          <!-- edges from the core to six "tool" nodes on a 150px ring -->
+          <path class="edge" d="M200 200 L200 50"/>
+          <path class="edge" d="M200 200 L330 125"/>
+          <path class="edge" d="M200 200 L330 275"/>
+          <path class="edge" d="M200 200 L200 350"/>
+          <path class="edge" d="M200 200 L70 275"/>
+          <path class="edge" d="M200 200 L70 125"/>
+
+          <g><circle class="node pulse" cx="200" cy="50" r="24"/><g class="node-ico" transform="translate(188 38)"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/></g></g>
+          <g><circle class="node pulse d2" cx="330" cy="125" r="24"/><g class="node-ico" transform="translate(318 113)"><path d="M7 18a4.5 4.5 0 0 1-.6-9A6 6 0 0 1 18 9.5a4.3 4.3 0 0 1-.5 8.5z"/></g></g>
+          <g><circle class="node pulse d3" cx="330" cy="275" r="24"/><g class="node-ico" transform="translate(318 263)"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></g></g>
+          <g><circle class="node pulse" cx="200" cy="350" r="24"/><g class="node-ico" transform="translate(188 338)"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></g></g>
+          <g><circle class="node pulse d2" cx="70" cy="275" r="24"/><g class="node-ico" transform="translate(58 263)"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/></g></g>
+          <g><circle class="node pulse d3" cx="70" cy="125" r="24"/><g class="node-ico" transform="translate(58 113)"><path d="M4 5h16v11H9l-5 4z"/></g></g>
+        </g>
+
+        <!-- the agent in the middle -->
+        <circle cx="200" cy="200" r="46" fill="url(#coreGrad)"/>
+        <circle cx="200" cy="200" r="46" fill="none" stroke="#fff" stroke-opacity=".35"/>
+        <g transform="translate(176 176) scale(2)" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 6 1.3 4.7L18 12l-4.7 1.3L12 18l-1.3-4.7L6 12l4.7-1.3z"/>
+        </g>
+      </svg>
+    </div>
+  </header>
+  <div class="cue" aria-hidden="true"><span></span></div>
+
+  <section class="wrap" aria-labelledby="work">
+    <p class="kicker reveal">Experience</p>
+    <h2 id="work" class="reveal">Where I've worked</h2>
+    <ul class="chips reveal" aria-label="Industries">
+      <li><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg>Defense</li>
+      <li><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg>Healthcare</li>
+      <li><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg>Finance</li>
+      <li><svg class="i" aria-hidden="true"><use href="#i-car"/></svg>Self-driving cars</li>
+      <li><svg class="i" aria-hidden="true"><use href="#i-game"/></svg>Video games</li>
+      <li><svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg>Big cloud platforms</li>
+    </ul>
+    <ul class="cards">
+      <li class="card reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-server"/></svg></div><p>Backend systems and cloud infrastructure that keep running when things go wrong</p></li>
+      <li class="card reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-spark"/></svg></div><p>Lots of AI and LLM work lately: agents, retrieval and making sure the results are actually good</p></li>
+      <li class="card reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-layout"/></svg></div><p>Full-stack web apps, from dashboards to big customer-facing portals</p></li>
+      <li class="card reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></div><p>Mentoring newer engineers and helping small teams grow</p></li>
     </ul>
   </section>
 
-  <section aria-labelledby="edu">
-    <h2 id="edu">Education</h2>
-    <ul class="list">
-      <li>M.S. in Computer Science (machine learning), Georgia Tech</li>
-      <li>B.S. in Computer Science, Georgia Tech</li>
-    </ul>
+  <section class="wrap split">
+    <section aria-labelledby="edu">
+      <p class="kicker reveal">Education</p>
+      <h2 id="edu" class="reveal">Georgia Tech</h2>
+      <ul class="stack">
+        <li class="card row reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></div><div><strong>M.S. in Computer Science</strong><span class="sub">Machine learning</span></div></li>
+        <li class="card row reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></div><strong>B.S. in Computer Science</strong></li>
+      </ul>
+    </section>
+    <section aria-labelledby="certs">
+      <p class="kicker reveal">Certifications</p>
+      <h2 id="certs" class="reveal">Certs</h2>
+      <ul class="stack">
+        <li class="card row badge reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-award"/></svg></div><strong>Claude Certified Architect – Professional</strong></li>
+        <li class="card row badge reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-award"/></svg></div><strong>Claude Certified Architect – Foundations</strong></li>
+        <li class="card row badge reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-award"/></svg></div><strong>GitHub Certified Agentic AI Developer</strong></li>
+        <li class="card row badge reveal"><div class="ico"><svg class="i" aria-hidden="true"><use href="#i-award"/></svg></div><strong>NVIDIA Certified Agentic AI</strong></li>
+      </ul>
+    </section>
   </section>
 
-  <section aria-labelledby="certs">
-    <h2 id="certs">Certifications</h2>
-    <ul class="list">
-      <li>Claude Certified Architect – Professional</li>
-      <li>Claude Certified Architect – Foundations</li>
-      <li>GitHub Certified Agentic AI Developer</li>
-      <li>NVIDIA Certified Agentic AI</li>
+  <footer class="wrap">
+    <div class="divider"></div>
+    <ul class="actions" aria-label="Contact">
+      <li><a class="btn primary" href="mailto:henry.smith.seattle@gmail.com"><svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>Email</a></li>
+      <li><a class="btn" href="https://www.linkedin.com/in/henry-smith-77737233/" rel="me"><svg class="i" aria-hidden="true"><use href="#i-link"/></svg>LinkedIn</a></li>
     </ul>
-  </section>
+    <p>Henry Smith · Seattle</p>
+  </footer>
 </main>
 </body>
 </html>
